@@ -1,0 +1,12 @@
+---
+title: "Análisis de Riesgo de Crédito"
+author: "Dr. Juliho Castillo"
+date: "6 de septiembre de 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+

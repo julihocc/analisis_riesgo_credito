@@ -1,0 +1,62 @@
+---
+title: "Credit Risk Analysis"
+author: "Dr. Juliho Castillo"
+date: "6 de septiembre de 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Introduction and data preprocessing
+
+## The Data
+
+```{r}
+loan_data <- readRDS("./data/loan_data_ch1.rds")
+head(loan_data,10)
+```
+## CrossTable
+```{r}
+library(gmodels)
+CrossTable(loan_data$home_ownership)
+```
+
+```{r}
+CrossTable(loan_data$home_ownership, loan_data$loan_status, prop.r = TRUE,
+           prop.c = FALSE, prop.t = FALSE, prop.chisq = FALSE)
+```
+
+### Exploring the credit data
+
+View the structure of loan_data
+```{r}
+library(dplyr)
+glimpse(loan_data)
+```
+
+Call CrossTable() on loan_status
+```{r}
+CrossTable(loan_data$loan_status)
+```
+
+Call CrossTable() on grade and loan_status
+```{r}
+CrossTable(loan_data$grade, loan_data$loan_status, prop.r=T, prop.c=F, prop.t=F, prop.chisq=F)
+```
+
+The proportion of defaults increases when the credit rating moves from A to G
+
+## Histogram and outliers
+
+using function  `hist()` 
+
+```{r}
+library(ggplot2)
+ggplot(loan_data, x="int_rate")
+```
+
+
+
+
