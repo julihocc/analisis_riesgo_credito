@@ -54,9 +54,76 @@ using function  `hist()`
 
 ```{r}
 library(ggplot2)
-ggplot(loan_data, x="int_rate")
+ggplot(loan_data, aes(x=int_rate)) +
+  geom_histogram( ) +
+  ggtitle("Histogram of interest rate") +
+  xlab("Interest rate")
+```
+
+Using function `hist()` on `annual_inc`
+
+```{r}
+ggplot(loan_data, aes(x=annual_inc)) +
+  geom_histogram() +
+  xlab("Annual Income") +
+  ggtitle("Histogram of Annual Income")
+```
+
+```{r}
+n_ <- sqrt(nrow(loan_data)) 
+m = min(loan_data$annual_inc)
+M = max(loan_data$annual_inc)
+n_breaks = seq(m,M,(M-m)/(n_-1))
+
+hist_income_n <- ggplot(loan_data, aes(x=annual_inc)) +
+  geom_histogram(breaks=n_breaks ) 
+
+hist_income_n
+```
+
+```{r}
+ggplot(loan_data, aes(x=1, y=(annual_inc))) +
+  geom_boxplot()
 ```
 
 
+```{r}
+ggplot(loan_data, aes(x=1, y=log(annual_inc))) +
+  geom_boxplot()
+```
 
+Expert judgement vs Rule Of Thum
+
+* “Annual salaries > $ 3 million are outliers”
+```{r}
+loan_data_expert <- loan_data %>%
+  filter(annual_inc <= 3*10^6)
+
+n = nrow(loan_data_expert)
+l = sqrt(n)
+
+ggplot(loan_data_expert, aes(x = annual_inc)) +
+  geom_histogram(binwidth = l)
+```
+
+* Use of a rule of thumb: outlier if bigger than Q3 + 1.5 * IQR
+```{r}
+outlier_cutoff <- quantile(loan_data$annual_inc, 0.75) + 1.5*IQR(loan_data$annual_inc) 
+
+loan_data_ROT <- loan_data %>%
+  filter(annual_inc <= outlier_cutoff)
+
+n = nrow(loan_data_ROT)
+l = sqrt(n)
+
+
+ggplot(loan_data_ROT, aes(x = annual_inc)) +
+  geom_histogram(binwidth = l)
+```
+
+## Missing Data and Coarse Classifitacion
+
+```{r}
+summary(loan_data_ROT)
+```
 
